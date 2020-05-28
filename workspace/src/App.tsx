@@ -6,7 +6,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <Header />
+      <Header
+        name='John'
+      />
         <div className='mainContent'>
 
         </div>
