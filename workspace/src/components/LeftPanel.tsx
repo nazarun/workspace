@@ -1,4 +1,5 @@
 import React from 'react';
+import utils from '../utils/util'
 import '../App.css';
 
 interface LeftPanelProps {
@@ -16,7 +17,7 @@ const renderElements = () => {
     console.log('renderElements ', exampleElements )
     return exampleElements.map((el) => {
         return (
-            <div id={getID()}
+            <div id={utils.getID()}
                 draggable="true"
                 onDragStart={startDrag}>
                 {el}
@@ -29,9 +30,6 @@ const startDrag = (event: any) => {
     console.log('startDrag ', event )
 }
 
-const getID = (): any => {
-   return 'id-' + Math.random().toString(36).substr(2, 16);
-}
 
 
 
