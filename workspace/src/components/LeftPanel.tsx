@@ -26,8 +26,7 @@ const renderElements = () => {
 }
 
 const startDrag = (event: any) => {
-    event.dataTransfer.setData("text", event.target.id);
-    console.log('startDrag ', event )
+    event.dataTransfer.setData("id", event.target.id);
 }
 
 

@@ -6,10 +6,13 @@ interface Workspace {
 }
 
 const handleDrop = (event: any) => {
-    console.log('handleDrop ', event )
     event.preventDefault();
-    let data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
+    let id = event.dataTransfer.getData("id");
+    let original = document.getElementById(id);
+    if (original) {
+        let clone = original.cloneNode(true);
+        event.target.appendChild(clone);
+    }
 }
 
 const allowDrop = (event: any) => {
