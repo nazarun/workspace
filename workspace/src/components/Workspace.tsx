@@ -8,6 +8,9 @@ interface Workspace {
 
 interface Page {
     name?: string;
+    onKeyDown?: any;
+    tabIndex?: string;
+    onChange?: any;
 }
 
 
@@ -46,11 +49,30 @@ const allowDrop = (event: any) => {
     event.preventDefault();
 }
 
+const handleKeyDown = (event: any) => {
+    let { keyCode, ctrlKey, target } = event;
+
+    // zoom in
+    if(keyCode === 187 && ctrlKey) {
+        console.log(' zoom in'  )
+        target.style.transform = "scale(1.5)";
+    }
+
+    // zoom out
+    if(keyCode === 189 && ctrlKey) {
+        console.log('zoom out '  )
+        target.style.transform = "scale(0.5)"
+    }
+}
+
 const Page: React.FC<Page> = (props: Page) => {
     return (
         <div className="page"
              onDragOver={allowDrop}
              onDrop={handleDrop}
+             onKeyDown={handleKeyDown}
+            // @ts-ignore
+             tabIndex={"0"}
         >
             Workspace
         </div>
