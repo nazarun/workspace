@@ -1,5 +1,5 @@
 import React from 'react';
-import utils from '../utils/util'
+import utils from '../utils/util';
 import '../App.css';
 
 interface LeftPanelProps {
