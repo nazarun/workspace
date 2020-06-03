@@ -6,8 +6,22 @@ interface Workspace {
     name?: string;
 }
 
+const ZOOM_STEP = 0.1;
+
+
+
 const Workspace: React.FC<Workspace> = (props: Workspace) => {
     const [zoom, setZoom] = useState(1);
+
+
+    const updateZoom = (target: any, type: string) => {
+        if (type === '+') {
+            setZoom(zoom + ZOOM_STEP)
+        }
+        if (type === '-') {
+            setZoom(zoom - ZOOM_STEP)
+        }
+    }
 
 
     const handleDrop = (event: any) => {
@@ -50,14 +64,12 @@ const Workspace: React.FC<Workspace> = (props: Workspace) => {
 
         // zoom in
         if(keyCode === 187 && ctrlKey) {
-            console.log(' zoom in'  )
-            target.style.transform = "scale(1.5)";
+            updateZoom(target, '+')
         }
 
         // zoom out
         if(keyCode === 189 && ctrlKey) {
-            console.log('zoom out '  )
-            target.style.transform = "scale(0.5)"
+            updateZoom(target, '-')
         }
     }
 
@@ -71,6 +83,7 @@ const Workspace: React.FC<Workspace> = (props: Workspace) => {
                  onKeyDown={handleKeyDown}
                 // @ts-ignore
                  tabIndex={"0"}
+                 style={{ "transform" : `scale(${zoom})` }}
             >
                 Workspace
             </div>
