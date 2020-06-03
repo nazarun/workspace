@@ -12,7 +12,7 @@ const ZOOM_STEP = 0.1;
 
 const Workspace: React.FC<Workspace> = (props: Workspace) => {
     const [zoom, setZoom] = useState(1);
-
+    const zoomInPercent = Math.floor(zoom * 100);
 
     const updateZoom = (target: any, type: string) => {
         if (type === '+') {
@@ -86,6 +86,9 @@ const Workspace: React.FC<Workspace> = (props: Workspace) => {
                  style={{ "transform" : `scale(${zoom})` }}
             >
                 Workspace
+            </div>
+            <div className='zoom-level'>
+                Zoom: {zoomInPercent} %
             </div>
         </div>
     );
