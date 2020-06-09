@@ -42,10 +42,12 @@
 }
 
 .workspace {
+  height: 100%;
   width: 75%;
-  padding: 30px;
+  /*padding: 30px;*/
   background: grey;
   overflow: scroll;
+  box-sizing: border-box;
 }
 
 .page {
@@ -54,6 +56,7 @@
   background: #fff;
   border: 1px solid #000;
   position: relative;
+  margin: 10px;
 }
 
 .zoom-level {

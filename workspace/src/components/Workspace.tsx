@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import '../App.css';
 import utils from "../utils/util";
 
@@ -13,6 +13,9 @@ const ZOOM_STEP = 0.1;
 const Workspace: React.FC<Workspace> = (props: Workspace) => {
     const [zoom, setZoom] = useState(1);
     const zoomInPercent = Math.floor(zoom * 100);
+    const [cursor, setCursor] = useState('default');
+
+    const workspace = useRef(null);
 
     const updateZoom = (target: any, type: string) => {
         if (type === '+') {
@@ -71,19 +74,69 @@ const Workspace: React.FC<Workspace> = (props: Workspace) => {
         if(keyCode === 189 && ctrlKey) {
             updateZoom(target, '-')
         }
+
+        if (keyCode === 16) {
+            setCursor('grab');
+        }
+    }
+
+    const handleKeyUp = (event: any) => {
+        let { keyCode, ctrlKey, target } = event;
+
+        if (keyCode === 16) {
+            setCursor('default');
+        }
+    }
+
+    const handleClick = (event: any) => {
+        const { target, shiftKey, button } = event;
+
+        if (shiftKey && button === 0) {
+            target.addEventListener('mousemove', handleMouseMove);
+            target.addEventListener('mouseup', handleMouseUp);
+
+            setCursor('grabbing');
+        }
+    }
+
+    const handleMouseMove = (event: any) => {
+        const { shiftKey, button, movementX, movementY } = event;
+        if (shiftKey && button === 0) {
+            // @ts-ignore
+            workspace.current.scrollTop -= movementY;
+            // @ts-ignore
+            workspace.current.scrollLeft -= movementX;
+        }
+    }
+
+    const handleMouseUp = (event: any) => {
+        const { target } = event;
+        target.removeEventListener('mousemove', handleMouseMove);
+
+        setCursor('default');
     }
 
 
 
     return (
-        <div className='workspace'>
+        <div className='workspace'
+             ref={workspace}
+             style={{
+                 'cursor' : cursor
+             }}
+        >
             <div className="page"
                  onDragOver={allowDrop}
                  onDrop={handleDrop}
                  onKeyDown={handleKeyDown}
+                 onKeyUp={handleKeyUp}
                 // @ts-ignore
                  tabIndex={"0"}
-                 style={{ "transform" : `scale(${zoom})` }}
+                 style={{
+                     'transform' : `scale(${zoom})`,
+                     'transformOrigin' : 'left top',
+                 }}
+                 onMouseDown={handleClick}
             >
                 Workspace
             </div>
