@@ -116,6 +116,27 @@ const Workspace: React.FC<Workspace> = (props: Workspace) => {
         setCursor('default');
     }
 
+    const handleScroll = (event: any) => {
+        const { target, ctrlKey, deltaY, clientX, clientY } = event;
+        if (ctrlKey) {
+            event.preventDefault();
+            if (deltaY > 0) {
+                updateZoom(target, '+');
+                // @ts-ignore
+                workspace.current.scrollTop += (clientY - 100)/4
+                // @ts-ignore
+                workspace.current.scrollLeft += (clientX - 240)/4
+            }
+            if (deltaY < 0) {
+                updateZoom(target, '-');
+                // @ts-ignore
+                workspace.current.scrollTop -= (clientY - 100)/4
+                // @ts-ignore
+                workspace.current.scrollLeft -= (clientX - 240)/4
+            }
+        }
+    }
+
 
 
     return (
@@ -124,6 +145,7 @@ const Workspace: React.FC<Workspace> = (props: Workspace) => {
              style={{
                  'cursor' : cursor
              }}
+             onWheel={handleScroll}
         >
             <div className="page"
                  onDragOver={allowDrop}
