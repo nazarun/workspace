@@ -4,6 +4,7 @@ import '../App.css';
 
 interface LeftPanelProps {
     name?: string;
+    shapes: object[];
 }
 
 
@@ -30,13 +31,43 @@ const startDrag = (event: any) => {
 }
 
 
+const LeftPanel: React.FC<LeftPanelProps> = (props: LeftPanelProps) => {
+    
+    console.log('LeftPanel props::: ', props );
+    const { shapes } = props;
 
-
-const LeftPanel: React.FC<LeftPanelProps> = (props: LeftPanelProps) => (
-    <div className='left-panel'>
-        {renderElements()}
-    </div>
-);
+    const renderShapes = () => {
+        return shapes && shapes.map((el) => {
+            // @ts-ignore
+            let { background, height, width, title, x, y } = el;
+            
+            return (
+                <div id={utils.getID()}
+                     draggable="true"
+                     onDragStart={startDrag}>
+                    {/*{el}*/}
+                    <div 
+                        style={{
+                            margin: '1px',
+                            background: background,
+                            height: height,
+                            width: width,
+                            top: x,
+                            left: y
+                        }}
+                    />
+                </div>
+            );
+        })
+    }
+    
+    return (
+        <div className='left-panel'>
+            {/*{renderElements()}*/}
+            {renderShapes()}
+        </div>
+    );
+} 
 
 LeftPanel.defaultProps = {
     name: 'User',
